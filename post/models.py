@@ -9,13 +9,14 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.title
+        return str(self.pk) + ' | ' + self.title
     
     
 class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.content
+        return str(self.pk) + ' | ' + self.content

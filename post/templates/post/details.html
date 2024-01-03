@@ -6,14 +6,38 @@ active
 
 {% block base_main %}
 
-<div class="container d-grid">
-    <div class="card text-left">
-      <img class="card-img-top" src="holder.js/100px180/" alt="">
-      <div class="card-body">
-        <h4 class="card-title">Title</h4>
-        <p class="card-text">Body</p>
+<div class="vh-100 mt-xxl-5">
+  <div class="container-fluid h-custom">
+    <div class="col d-flex justify-content-center align-items-center h-100 ">
+      <div class="card col-md-9 col-lg-6">
+        <img class="card-img-top" src="holder.js/100px180/" alt="">
+        <div class="card-body">
+          <h4 class="card-title">{{ post.title }}</h4>
+          <h6 class="card-subtitle text-muted">{{ post.user }}</h6>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ post.content }}</p>
+        </div>
+        <br>
+        <div class="card-columns m-2 d-flex flex-column gap-1">
+          <h5>Comentários:</h5>
+          {% if post.comment_set.all %}
+            {% for comment in post.comment_set.all %}
+              <div class="card">
+                <img class="card-img-top" src="holder.js/100x180/" alt="">
+                <div class="card-body">
+                  <h5 class="card-title">{{ comment.user }}</h5>
+                  <p class="card-text">{{ comment.content }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+              <span class="card-text">Esse post ainda não tem comentário.</span>
+          {% endif %}
+        </div>
       </div>
-    </div>
+  </div>
+  </div>
 </div>
 
 {% endblock base_main %}

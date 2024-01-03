@@ -23,9 +23,9 @@
     <title>Posts</title>
 </head>
 <body>
-    <header>
+    <header class="nav nav-tabs">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs container" id="navId">
+        <ul class="nav container mt-1 " id="navId">
             <li class="nav-item">
                 <a href={% url 'post:index' %} class="nav-link {% if request.path == '/' %}active {% endif %}">Home</a>
             </li>
