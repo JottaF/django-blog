@@ -1,6 +1,7 @@
 from django import forms
+from .models import Post
 
-class CreatePost(forms.Form):
-  title = forms.CharField(max_length=255)
-  content = forms.CharField(widget=forms.Textarea)
-  pub_date = forms.DateTimeField()
+class CreatePost(forms.ModelForm):
+  class Meta:
+    model = Post
+    fields = ['title', 'content', 'pub_date', 'image']

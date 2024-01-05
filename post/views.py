@@ -21,7 +21,8 @@ def create_post(request):
                     user = request.user,
                     title = form.cleaned_data['title'],
                     content = form.cleaned_data['content'],
-                    pub_date = form.cleaned_data['pub_date']
+                    pub_date = form.cleaned_data['pub_date'],
+                    image = request.FILES.get('image')
                 )
                 
                 return redirect('post:details', pk=new_post.pk)
@@ -29,4 +30,5 @@ def create_post(request):
                 return redirect('post:create_post')
         
         return render(request, 'post/create_post.html', {'form': CreatePost()})
+    return redirect('account_login')
     

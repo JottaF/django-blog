@@ -37,7 +37,7 @@ active
                 </div>
                 {% endif %}
 
-                <form action="{% url 'post:create_post' %}" method="post">
+                <form action="{% url 'post:create_post' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- title input -->
                     <div class="form-outline mb-4">
@@ -48,9 +48,15 @@ active
 
                     <!-- content input  -->
                     <div class="form-outline mb-4">
-                        <label for="id_content" class="form-label">Content</label>
+                        <label for="id_content" class="form-label">Conteúdo do post</label>
                         <textarea name="content" id="id_content" class="form-control form-control-lg" cols="30"
                             rows="10" placeholder="Conteúdo do post..."></textarea>
+                    </div>
+
+                    <!-- image input  -->
+                    <div class="form-outline mb-4">
+                        <label for="id_content" class="form-label">Image</label>
+                        <input type="file" name="image" class="form-control form-control-lg" id="id_image" accept="image/*"/>
                     </div>
 
                     <!-- content input  -->
