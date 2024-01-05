@@ -12,19 +12,21 @@ def details(request, pk):
     return render(request, 'post/details.html', {'post':post})
 
 def create_post(request):
-    if request.method == 'POST':
-        form = CreatePost(request.POST)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = CreatePost(request.POST)
 
-        if form.is_valid():
-            new_post = Post.objects.create(
-                user = request.user,
-                title = form.cleaned_data['title'],
-                content = form.cleaned_data['content'],
-                pub_date = form.cleaned_data['pub_date']
-            )
-            
-            return redirect('post:details', pk=new_post.pk)
-        else:
-            return redirect('post:create_post')
-    else:
-        pass
+            if form.is_valid():
+                new_post = Post.objects.create(
+                    user = request.user,
+                    title = form.cleaned_data['title'],
+                    content = form.cleaned_data['content'],
+                    pub_date = form.cleaned_data['pub_date']
+                )
+                
+                return redirect('post:details', pk=new_post.pk)
+            else:
+                return redirect('post:create_post')
+        
+        return render(request, 'post/create_post.html', {'form': CreatePost()})
+    

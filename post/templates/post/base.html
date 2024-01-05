@@ -20,6 +20,10 @@
     />
     {% load bootstrap5 %}
     {% bootstrap_css %}
+
+    {% block base_style %}
+    {% endblock base_style %}
+
     <title>Posts</title>
 </head>
 <body>
@@ -30,7 +34,7 @@
                 <a href={% url 'post:index' %} class="nav-link {% if request.path == '/' %}active {% endif %}">Home</a>
             </li>
             <li class="nav-item">
-                <a href="#tab5Id" class="nav-link {% if not user.is_authenticated %} disabled {% endif %} {% if request.path == '/create/' %}active {% endif %}">Criar post</a>
+                <a href="{% url 'post:create_post' %}" class="nav-link {% if not user.is_authenticated %} disabled {% endif %} {% if request.path == '/create_post' %}active {% endif %}">Criar post</a>
             </li>
             <li class="nav-item ">
                 {% if user.is_authenticated %}

@@ -1,22 +1,45 @@
 {% extends "post/base.html" %}
 
+{% block base_style %}
+<style>
+    .post-card:hover {
+        transition: background-color 0.2s ease-in;
+        background-color: #ddd9fd93;
+    }
+</style>
+{% endblock base_style %}
+
 {% block base_activePage %}
 active
 {% endblock base_activePage %}
 
 {% block base_main %}
 
-<div class="container">
-    <div class="col justify-content-center align-items-center g-2">
+<div class="container d-flex justify-content-center align-items-center mt-4">
+    <div class="g-2">
         {% if posts %}
-            {% for post in posts %}
-                <div class="col"><a href={% url 'post:details' post.id %}>{{post.title}}</a></div>
-            {% endfor %}
+        {% for post in posts %}
+        <a href={% url 'post:details' post.id %} class="text-decoration-none">
+            <div class="col-md-9">
+                <div class="post-card card border-secondary mt-2 ">
+                    <img class="card-img-top" src="holder.js/100px180/" alt="">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h4 class="card-title">{{ post.title }}</h4>
+                            <span class="text-muted">{{ post.user }}</span>
+                        </div>
+                        <p class="card-text">{{ post.content }}</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        {% endfor %}
         {% else %}
-            <div class="col"><span class='text-info-emphasis'>Nenhum post cadastrado.</span></div>
+        <div class="col"><span class='text-info-emphasis'>Nenhum post cadastrado.</span></div>
         {% endif %}
     </div>
-    
+
 </div>
 
 {% endblock base_main %}

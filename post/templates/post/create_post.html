@@ -1,0 +1,84 @@
+{% extends "post/base.html" %}
+
+{% block base_style %}
+<style>
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #525252;
+    }
+
+    input {
+        border: 1px solid #c3c3c3 !important;
+    }
+
+    textarea {
+        border: 1px solid #c3c3c3 !important;
+    }
+</style>
+{% endblock base_style %}
+
+{% block base_activePage %}
+active
+{% endblock base_activePage %}
+
+{% block base_main %}
+
+<section class="vh-100 mt-xxl-5">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    {{ form.errors }}
+                </div>
+                {% endif %}
+
+                <form action="{% url 'post:create_post' %}" method="post">
+                    {% csrf_token %}
+                    <!-- title input -->
+                    <div class="form-outline mb-4">
+                        <label for="id_login" class="form-label">Título</label>
+                        <input type="text" class="form-control form-control-lg" name="title" id="id_title" required
+                            max-length="255" placeholder="Título do post" />
+                    </div>
+
+                    <!-- content input  -->
+                    <div class="form-outline mb-4">
+                        <label for="id_content" class="form-label">Content</label>
+                        <textarea name="content" id="id_content" class="form-control form-control-lg" cols="30"
+                            rows="10" placeholder="Conteúdo do post..."></textarea>
+                    </div>
+
+                    <!-- content input  -->
+                    <div class="form-outline mb-4">
+                        <label for="id_pub_date" class="form-label">Quando a publicação vai ao ar?</label>
+                        <input type="datetime-local" class="form-control form-control-lg" id="id_pub_date" name="pub_date">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Postar</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(function() {
+      $('#datetimepicker1').datetimepicker({
+        language: 'pt-BR'
+      });
+    });
+</script>
+
+<script>
+    // Obtém a data e hora atuais em formato ISO8601
+    var currentDateTime = new Date().toISOString().slice(0, -8);
+
+    // Define o valor padrão para o campo datetime-local
+    document.getElementById("id_pub_date").value = currentDateTime;
+</script>
+{% endblock base_main %}
