@@ -12,6 +12,9 @@ class Post(models.Model):
     def __str__(self):
         return str(self.pk) + ' | ' + self.title
     
+    def formated_date(self):
+        return self.pub_date.strftime("%d/%m %H:%M")
+    
     
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
