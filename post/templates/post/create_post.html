@@ -62,7 +62,7 @@ active
                     <!-- content input  -->
                     <div class="form-outline mb-4">
                         <label for="id_pub_date" class="form-label">Quando a publicação vai ao ar?</label>
-                        <input type="datetime-local" class="form-control form-control-lg" id="id_pub_date" name="pub_date">
+                        <input type="date" class="form-control form-control-lg" id="id_pub_date" name="pub_date">
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Postar</button>
                 </form>
@@ -72,19 +72,4 @@ active
     </div>
 </section>
 
-<script type="text/javascript">
-    $(function() {
-      $('#datetimepicker1').datetimepicker({
-        language: 'pt-BR'
-      });
-    });
-</script>
-
-<script>
-    // Obtém a data e hora atuais em formato ISO8601
-    var currentDateTime = new Date().toISOString().slice(0, -8);
-
-    // Define o valor padrão para o campo datetime-local
-    document.getElementById("id_pub_date").value = currentDateTime;
-</script>
 {% endblock base_main %}

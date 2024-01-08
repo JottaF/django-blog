@@ -1,10 +1,13 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+from django.contrib import messages
 
 from post.forms import CreateComment, CreatePost
 from .models import Comment, Post
 
 def index(request):
-    posts = Post.objects.all().order_by('-pub_date')
+    current_datetime = timezone.now()
+    posts = Post.objects.all().filter(pub_date__lte=current_datetime).order_by('-pub_date')
     return render(request, 'post/index.html', {'posts':posts})
 
 def details(request, pk):
@@ -47,4 +50,21 @@ def create_post(request):
         
         return render(request, 'post/create_post.html', {})
     return redirect('account_login')
-    
+
+def remove_post(request, pk):
+    user = request.user
+
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        if user.is_authenticated:
+            if user == post.user:
+                post.delete()
+                messages.success(request, 'Post apagado com sucesso!')
+                return redirect('post:index')
+            else:
+                return redirect('post:not_allowed')
+        else:
+            return redirect('post:not_allowed')
+    else:
+        return render(request, 'post/remove_post.html', {'post':post})
+

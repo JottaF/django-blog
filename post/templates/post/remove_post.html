@@ -1,0 +1,19 @@
+{% extends "post/base.html" %}
+{% block base_main %}
+
+<div class="col w-100 mt-5 ">
+  <div class="col-6 mx-auto alert alert-danger" role="alert">
+    <h4 class="alert-heading">Apagar post</h4>
+    <p>Essa ação não poderá ser revertida!</p>
+    <hr />
+    <p class="mb-0">Você tem certeza que deseja apagar o post?</p>
+    <form action="{% url 'post:remove_post' post.id %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger mt-2 ">Apagar</button>
+    </form>
+  </div>
+</div>
+
+
+
+{% endblock base_main %}

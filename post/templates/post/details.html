@@ -18,6 +18,12 @@ active
   <div class="container-fluid h-custom">
     <div class="col d-flex justify-content-center align-items-center h-100 ">
       <div class="card col-md-9 col-lg-6">
+        {% if user == post.user %}
+          <div class="col-md-6 m-2 gap-1 ">
+            <a href="#" class="btn btn-warning">Editar</a>
+            <a href="{% url 'post:remove_post' post.pk %}" class="btn btn-danger">Apagar</a>
+          </div>
+        {% endif %}
         {% if post.image %}
         <div class="bg-secondary bg-opacity-25 rounded p-1">
           <img class="card-img-top" src="media/{{ post.image.name }}">
@@ -34,15 +40,24 @@ active
         <div class="card-columns m-2 d-flex flex-column gap-1">
           <h5>Comentários:</h5>
           <div class="form-outline mb-4">
-            <form action="{% url 'post:details' post.pk %}" method="post">
-              {% csrf_token %}
+            {% if user.is_authenticated %}
+              <form action="{% url 'post:details' post.pk %}" method="post">
+                {% csrf_token %}
+                <label for="id_login" class="form-label">Adicionar um comentário:</label>
+                <div class="d-flex gap-1">
+                  <input type="text" class="form-control" name="content" id="id_content" required max-length="255"
+                    placeholder="Escreva aqui seu comentário..." />
+                  <button type="submit" class="btn btn-primary btn-sm" id="submitBtn" disabled>Comentar</button>
+                </div>
+              </form>
+            {% else %}
               <label for="id_login" class="form-label">Adicionar um comentário:</label>
               <div class="d-flex gap-1">
-                <input type="text" class="form-control" name="content" id="id_content" required max-length="255"
-                  placeholder="Escreva aqui seu comentário..." />
-                <button type="submit" class="btn btn-outline-primary btn-sm" id="submitBtn" disabled>Comentar</button>
+                <input type="text" class="form-control" max-length="255"
+                  placeholder="Você precisa estar logado para comentar..." />
+                <button type="submit" class="btn btn-outline-primary btn-sm " disabled>Comentar</button>
               </div>
-            </form>
+            {% endif %}
           </div>
           {% if post.comment_set.all %}
           {% for comment in post.comment_set.all %}

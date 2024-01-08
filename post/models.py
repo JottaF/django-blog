@@ -5,7 +5,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     content = models.TextField()
-    pub_date = models.DateTimeField()
+    pub_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='post_images/', null=True, blank=True)
     
@@ -13,7 +13,7 @@ class Post(models.Model):
         return str(self.pk) + ' | ' + self.title
     
     def formated_date(self):
-        return self.pub_date.strftime("%d/%m %H:%M")
+        return self.pub_date.strftime("%d/%m")
     
     
 class Comment(models.Model):
