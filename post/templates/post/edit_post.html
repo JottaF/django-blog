@@ -37,34 +37,34 @@ active
                 </div>
                 {% endif %}
 
-                <form action="{% url 'post:create_post' %}" method="post" enctype="multipart/form-data">
+                <form action="{% url 'post:edit_post' post.id %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- title input -->
                     <div class="form-outline mb-4">
                         <label for="id_login" class="form-label">Título</label>
                         <input type="text" class="form-control form-control-lg" name="title" id="id_title" required
-                            max-length="255" placeholder="Título do post" />
+                            max-length="255" placeholder="Título do post" value="{{ post.title }}"/>
                     </div>
 
                     <!-- content input  -->
                     <div class="form-outline mb-4">
                         <label for="id_content" class="form-label">Conteúdo do post</label>
                         <textarea name="content" id="id_content" class="form-control form-control-lg" cols="30"
-                            rows="10" placeholder="Conteúdo do post..."></textarea>
+                            rows="10" placeholder="Conteúdo do post...">{{ post.content }}</textarea>
                     </div>
 
                     <!-- image input  -->
                     <div class="form-outline mb-4">
                         <label for="id_content" class="form-label">Image</label>
-                        <input type="file" name="image" class="form-control form-control-lg" id="id_image" accept="image/*"/>
+                        <input type="file" name="image" class="form-control form-control-lg" id="id_image" accept="image/*" placeholder="teste"/>
                     </div>
 
                     <!-- content input  -->
                     <div class="form-outline mb-4">
                         <label for="id_pub_date" class="form-label">Quando a publicação vai ao ar?</label>
-                        <input type="date" class="form-control form-control-lg" id="id_pub_date" name="pub_date" value="{{ current_date }}">
+                        <input type="date" class="form-control form-control-lg" id="id_pub_date" name="pub_date" value="{{ post.formated_date_to_input }}">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Postar</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Editar</button>
                 </form>
 
             </div>

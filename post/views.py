@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
 
@@ -7,14 +8,13 @@ from .models import Comment, Post
 
 def index(request):
     current_datetime = timezone.now()
-    posts = Post.objects.all().filter(pub_date__lte=current_datetime).order_by('-pub_date')
+    posts = Post.objects.all().filter(pub_date__lte=current_datetime).order_by('-pub_date', '-pk')
     return render(request, 'post/index.html', {'posts':posts})
 
 def details(request, pk):
     if request.method == 'POST':
         if request.user.is_authenticated:
             form = CreateComment(request.POST)
-            print(form)
             post = get_object_or_404(Post, pk=pk)
             
             if form.is_valid():
@@ -47,8 +47,9 @@ def create_post(request):
                 return redirect('post:details', pk=new_post.pk)
             else:
                 return redirect('post:create_post')
-        
-        return render(request, 'post/create_post.html', {})
+        else:
+            current_date = timezone.now().strftime("%Y-%m-%d")
+            return render(request, 'post/create_post.html', {'current_date':current_date})
     return redirect('account_login')
 
 def remove_post(request, pk):
@@ -68,3 +69,21 @@ def remove_post(request, pk):
     else:
         return render(request, 'post/remove_post.html', {'post':post})
 
+@login_required
+def edit_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    if request.user != post.user:
+        return redirect('post:not_allowed')
+    
+    if request.method == 'POST':
+        form = CreatePost(request.POST, request.FILES, instance=post)
+
+        if form.is_valid():
+            form.save()
+            
+            return redirect('post:details', pk=post.pk)
+        else:
+            return redirect('post:edit_post')
+    return render(request, 'post/edit_post.html', {'post': post})
+        

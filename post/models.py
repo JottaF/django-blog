@@ -15,6 +15,9 @@ class Post(models.Model):
     def formated_date(self):
         return self.pub_date.strftime("%d/%m")
     
+    def formated_date_to_input(self):
+        return self.pub_date.strftime("%Y-%m-%d")
+    
     
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

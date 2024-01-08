@@ -20,7 +20,7 @@ active
       <div class="card col-md-9 col-lg-6">
         {% if user == post.user %}
           <div class="col-md-6 m-2 gap-1 ">
-            <a href="#" class="btn btn-warning">Editar</a>
+            <a href="{% url 'post:edit_post' post.pk %}" class="btn btn-warning">Editar</a>
             <a href="{% url 'post:remove_post' post.pk %}" class="btn btn-danger">Apagar</a>
           </div>
         {% endif %}
