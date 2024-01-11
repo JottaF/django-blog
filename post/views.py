@@ -87,3 +87,9 @@ def edit_post(request, pk):
             return redirect('post:edit_post')
     return render(request, 'post/edit_post.html', {'post': post})
         
+def not_allowed(request):
+    return render(request, 'post/not_allowed.html', {})
+
+def custom_404(request, exception):
+    return render(request, 'post/404.html', status=404)
+    

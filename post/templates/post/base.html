@@ -24,7 +24,9 @@
     {% block base_style %}
     {% endblock base_style %}
 
-    <title>Posts</title>
+    <title>
+        {% block base_title %}{% endblock base_title %}
+    </title>
 </head>
 <body>
     <header class="nav nav-tabs">

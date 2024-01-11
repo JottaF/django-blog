@@ -2,37 +2,82 @@
 {% block base_main %}
 {% load allauth i18n socialaccount %}
 
-<div class="d-flex flex-column align-items-center justify-content-center mt-5">
-    
-    <div class="card p-3 ">
-    {% block content %}
-        {% element h1 %}
-            {% trans "Sign Up" %}
-        {% endelement %}
-        <p>
-            {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
-        </p>
-        {% url 'account_signup' as action_url %}
-        {% element form form=form method="post" action=action_url tags="entrance,signup" %}
-            {% slot body %}
-                {% csrf_token %}
-                {% element fields form=form unlabeled=True %}
-                {% endelement %}
-                {% if redirect_field_value %}
-                    <input type="hidden"
-                        name="{{ redirect_field_name }}"
-                        value="{{ redirect_field_value }}" />
+{% block base_style %}
+<style>
+    .divider:after,
+    .divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #525252;
+}
+
+input {
+    border: 1px solid #c3c3c3 !important; 
+}
+</style>
+{% endblock base_style %}
+
+<section class="vh-100 mt-xxl-5">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://img.freepik.com/free-vector/placeholder-concept-illustration_114360-4983.jpg" class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.errors }}
+                    </div>
                 {% endif %}
-            {% endslot %}
-            {% slot actions %}
-                <button type="submit" class="btn btn-primary w-100">Entrar</button>
-            {% endslot %}
-        {% endelement %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endblock content %}
+                
+                {% url 'account_signup' as action_url %}
+                {% element form form=form method="post" action=action_url tags="entrance,signup" %}
+                    {% slot body %}
+                        {% csrf_token %}
+                        
+                        <div class="form-outline mb-4">
+                            <label for="id_username" class="form-label">Login</label>
+                            <input type="text" class="form-control form-control-lg" name="username"
+                                id="id_username" required max-length="150" autocomplete="username"
+                                placeholder="Nome de usuário"/>
+                        </div>
+                        
+                        <div class="form-outline mb-4">
+                            <label for="id_email" class="form-label">E-mail (opicional)</label>
+                            <input type="text" class="form-control form-control-lg" name="email"
+                                id="id_email" max-length="150" autocomplete="email"
+                                placeholder="Endereço de e-mail"/>
+                        </div>
+    
+                        <!-- password input  -->
+                        <div class="form-outline mb-4">
+                            <label for="id_password1" class="form-label">Senha</label>
+                            <input type="password" class="form-control form-control-lg" name="password1"
+                                id="id_password1" required  autocomplete="new-password" 
+                                placeholder="Senha"/>
+                        </div>
+                        
+                        <div class="form-outline mb-4">
+                            <label for="id_password2" class="form-label">Senha (novamente)</label>
+                            <input type="password" class="form-control form-control-lg" name="password2"
+                                id="id_password2" required  autocomplete="new-password" 
+                                placeholder="Senha (novamente)"/>
+                        </div>
 
-</div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Criar conta</button>
 
-</div>
-
+                        <div class="divider d-flex align-items-center my-4">
+                            <p class="text-center fw-bold mx-3 mb-0 text-muted">OU</p>
+                        </div>
+                        
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-primary btn-lg btn-block w-100 outline-0 border-0" style="background-color: #dd4b39; outline: none" role="button">
+                            <i class="fab fa-google me-2"></i> Continuar com Google
+                        </a>
+                        
+                        <a href="{% url 'account_login' %}" class="btn btn-primary btn-lg btn-block w-100" role="button">
+                            <i class="fa fa-user" aria-hidden="true"></i> Fazer login
+                        </a>
+                    {% endslot %}
+                {% endelement %}
 {% endblock base_main %}
