@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load allauth account socialaccount %}
 
+{% block base_style %}
 <style>
     .divider:after,
     .divider:before {
@@ -11,12 +12,13 @@
     flex: 1;
     height: 1px;
     background: #525252;
-    }
+}
 
-    input {
-        border: 1px solid #c3c3c3 !important; 
-    }
+input {
+    border: 1px solid #c3c3c3 !important; 
+}
 </style>
+{% endblock base_style %}
 
 <section class="vh-100 mt-xxl-5">
     <div class="container-fluid h-custom">
